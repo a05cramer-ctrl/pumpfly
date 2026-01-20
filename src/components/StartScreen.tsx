@@ -190,10 +190,6 @@ export function StartScreen({ onStart, highScore, playerName, onChangeName }: St
             </div>
           </div>
         </div>
-
-        <div className="pump-badge">
-          <span>Ca:</span>
-        </div>
       </div>
     </div>
   );

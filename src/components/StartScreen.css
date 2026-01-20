@@ -510,6 +510,33 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 4px;
+  margin-top: 15px;
+}
+
+.ca-address {
+  cursor: pointer;
+  padding: 8px 12px;
+  background: rgba(0, 255, 136, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  color: #00ff88;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  display: inline-block;
+  text-transform: none;
+}
+
+.ca-address:hover {
+  background: rgba(0, 255, 136, 0.2);
+  border-color: rgba(0, 255, 136, 0.5);
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+}
+
+.ca-address:active {
+  transform: scale(0.98);
 }
 
 /* Wallet Section */
