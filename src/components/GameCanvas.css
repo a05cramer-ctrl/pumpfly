@@ -1,0 +1,167 @@
+.game-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.game-container.playing {
+  cursor: none;
+}
+
+.game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hud {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 30px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.score-display,
+.high-score-display,
+.difficulty-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  padding: 12px 24px;
+  border-radius: 16px;
+  border: 2px solid rgba(0, 255, 136, 0.3);
+}
+
+.difficulty-display {
+  border-width: 3px;
+  animation: difficultyPulse 1s ease-in-out infinite;
+}
+
+@keyframes difficultyPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.score-label,
+.high-score-label,
+.difficulty-label {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 14px;
+  color: #00ff88;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.difficulty-label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.score-value {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 36px;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+}
+
+.difficulty-value {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 24px;
+  text-shadow: 0 0 20px currentColor;
+  animation: difficultyGlow 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes difficultyGlow {
+  from { text-shadow: 0 0 10px currentColor; }
+  to { text-shadow: 0 0 25px currentColor, 0 0 35px currentColor; }
+}
+
+.high-score-value {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 24px;
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+}
+
+/* Player Name Badge */
+.player-name-badge {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.player-name-badge span {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 18px;
+  color: #00ff88;
+  letter-spacing: 2px;
+}
+
+/* Boost Indicator */
+.boost-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 16px 32px;
+  border-radius: 50px;
+  border: 2px solid rgba(0, 255, 136, 0.5);
+  z-index: 10;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.boost-indicator.active {
+  background: rgba(255, 215, 0, 0.3);
+  border-color: #ffd700;
+  animation: boostPulse 0.3s ease infinite alternate;
+  transform: translateX(-50%) scale(1.1);
+}
+
+.boost-indicator.cooldown {
+  border-color: rgba(255, 255, 255, 0.3);
+  opacity: 0.7;
+}
+
+@keyframes boostPulse {
+  from { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+  to { box-shadow: 0 0 40px rgba(255, 215, 0, 0.9); }
+}
+
+.boost-icon {
+  font-size: 28px;
+}
+
+.boost-text {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.boost-indicator.active .boost-text {
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+}

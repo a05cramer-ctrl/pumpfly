@@ -1,0 +1,323 @@
+.game-over-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  animation: fadeIn 0.3s ease-out;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.game-over-content {
+  text-align: center;
+  padding: 30px;
+  max-width: 550px;
+  width: 100%;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.crash-header {
+  margin-bottom: 20px;
+}
+
+.crash-emoji {
+  font-size: 70px;
+  display: block;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px) rotate(-5deg); }
+  40% { transform: translateX(10px) rotate(5deg); }
+  60% { transform: translateX(-10px) rotate(-5deg); }
+  80% { transform: translateX(10px) rotate(5deg); }
+}
+
+.game-over-title {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 56px;
+  color: #ff4757;
+  margin: 10px 0;
+  text-shadow: 
+    0 0 20px rgba(255, 71, 87, 0.8),
+    0 0 40px rgba(255, 71, 87, 0.6);
+  letter-spacing: 4px;
+}
+
+.new-high-score-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+  padding: 10px 25px;
+  border-radius: 25px;
+  animation: bounce 0.6s ease infinite alternate;
+}
+
+.new-high-score-badge span {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 16px;
+  color: #1a0a2e;
+}
+
+@keyframes bounce {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+.player-info {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.player-name {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 32px;
+  color: #00ff88;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+  letter-spacing: 3px;
+}
+
+.player-rank {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 18px;
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.2);
+  padding: 5px 15px;
+  border-radius: 20px;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.score-summary {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+
+.final-score,
+.best-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 25px;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.final-score .label,
+.best-score .label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+.final-score .value {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 36px;
+  color: #00ff88;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+}
+
+.best-score .value {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 28px;
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.leaderboard {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 25px;
+  border: 2px solid rgba(0, 255, 136, 0.2);
+}
+
+.leaderboard-title {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 22px;
+  color: #ffd700;
+  margin: 0 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.loading,
+.no-scores {
+  color: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  font-style: italic;
+}
+
+.leaderboard-entry {
+  display: grid;
+  grid-template-columns: 45px 1fr 100px 80px;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  gap: 10px;
+}
+
+.leaderboard-entry.current {
+  background: rgba(0, 255, 136, 0.2);
+  border: 2px solid rgba(0, 255, 136, 0.5);
+  animation: highlightPulse 1s ease-in-out infinite;
+}
+
+@keyframes highlightPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 136, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.6); }
+}
+
+.leaderboard-entry.is-player {
+  background: rgba(0, 255, 136, 0.1);
+}
+
+.leaderboard-entry .rank {
+  font-size: 18px;
+  text-align: left;
+}
+
+.leaderboard-entry .entry-name {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 18px;
+  color: #fff;
+  text-align: left;
+  letter-spacing: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-entry.is-player .entry-name {
+  color: #00ff88;
+}
+
+.leaderboard-entry .entry-score {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 20px;
+  color: #ffd700;
+  text-align: right;
+}
+
+.leaderboard-entry .entry-date {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: right;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.restart-button,
+.menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 45px;
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 24px;
+  color: #1a0a2e;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.restart-button {
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+}
+
+.restart-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.6);
+}
+
+.restart-button:active {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.menu-button {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+}
+
+.menu-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+}
+
+.menu-button:active {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.meme-footer {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 14px;
+  letter-spacing: 3px;
+}
