@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { LeaderboardEntry } from '../types';
 import { getLeaderboard } from '../api/leaderboard';
+import { useWallet } from '../hooks/useWallet';
 import './StartScreen.css';
 
 interface StartScreenProps {
@@ -13,6 +14,7 @@ interface StartScreenProps {
 export function StartScreen({ onStart, highScore, playerName, onChangeName }: StartScreenProps) {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { walletAddress, isConnecting, isPhantomInstalled, connectWallet, disconnectWallet, getShortAddress } = useWallet();
 
   // Fetch leaderboard
   useEffect(() => {
@@ -126,6 +128,56 @@ export function StartScreen({ onStart, highScore, playerName, onChangeName }: St
                 <span className="prize-amount">0.03 SOL</span>
                 <span className="prize-percent">3%</span>
               </div>
+            </div>
+            
+            {/* Wallet Connection */}
+            <div className="wallet-section">
+              {!walletAddress ? (
+                <button 
+                  className="connect-wallet-btn" 
+                  onClick={connectWallet}
+                  disabled={isConnecting}
+                >
+                  {isConnecting ? (
+                    <>⏳ Connecting...</>
+                  ) : (
+                    <>🦄 Connect Phantom Wallet</>
+                  )}
+                </button>
+              ) : (
+                <div className="wallet-connected">
+                  <div className="wallet-info">
+                    <span className="wallet-label">Connected:</span>
+                    <span className="wallet-address">{getShortAddress(walletAddress)}</span>
+                    <button className="disconnect-wallet-btn" onClick={disconnectWallet}>
+                      ✕
+                    </button>
+                  </div>
+                  
+                  {/* Check if player is a winner */}
+                  {(() => {
+                    const playerRank = leaderboard.findIndex(entry => entry.name === playerName);
+                    const isWinner = playerRank >= 0 && playerRank < 5;
+                    const prizeAmounts = [0.5, 0.25, 0.15, 0.07, 0.03];
+                    const prizeAmount = isWinner ? prizeAmounts[playerRank] : 0;
+                    
+                    return isWinner ? (
+                      <button 
+                        className="claim-prize-btn"
+                        onClick={() => {
+                          alert(`Claim functionality will be implemented!\n\nYou won ${prizeAmount} SOL!\n\nWallet: ${walletAddress}`);
+                        }}
+                      >
+                        🎁 Claim {prizeAmount} SOL Prize
+                      </button>
+                    ) : (
+                      <div className="not-winner-message">
+                        Connect wallet to claim prize if you're a winner!
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
             </div>
           </div>
         </div>
