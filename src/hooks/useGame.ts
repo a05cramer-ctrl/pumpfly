@@ -187,7 +187,7 @@ export function useGame(canvasRef: React.RefObject<HTMLCanvasElement>, playerNam
     gs.backgroundInitialized = true;
   };
 
-  const drawNebulas = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+  const drawNebulas = (ctx: CanvasRenderingContext2D, _width: number, _height: number) => {
     const gs = gameState.current;
     for (const nebula of gs.nebulas) {
       ctx.save();

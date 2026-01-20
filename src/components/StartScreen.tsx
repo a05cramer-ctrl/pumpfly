@@ -29,13 +29,6 @@ export function StartScreen({ onStart, highScore, playerName, onChangeName }: St
     return () => clearInterval(interval);
   }, []);
 
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString();
-  };
-
-
   return (
     <div className="start-screen">
       <div className="start-content">
