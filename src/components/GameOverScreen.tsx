@@ -41,6 +41,10 @@ export function GameOverScreen({
     entry => entry.name === playerName && entry.score === score
   ) + 1;
 
+  const handleTwitterShare = () => {
+    window.open('https://x.com/PumpFly_Dev', '_blank');
+  };
+
   return (
     <div className="game-over-screen">
       <div className="game-over-content">
@@ -105,6 +109,11 @@ export function GameOverScreen({
           <button className="restart-button" onClick={onRestart}>
             <span className="button-text">TRY AGAIN</span>
             <span className="button-icon">🔄</span>
+          </button>
+          
+          <button className="twitter-button" onClick={handleTwitterShare}>
+            <span className="button-text">TWITTER</span>
+            <span className="button-icon">🐦</span>
           </button>
           
           <button className="menu-button" onClick={onBackToMenu}>

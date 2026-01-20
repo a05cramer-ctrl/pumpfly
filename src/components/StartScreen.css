@@ -234,6 +234,37 @@
   transform: translateY(-2px) scale(1.02);
 }
 
+.twitter-button-start {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto 20px;
+  padding: 14px 35px;
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 22px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #1DA1F2 0%, #0d8bd9 100%);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 8px 30px rgba(29, 161, 242, 0.4);
+  width: 100%;
+  max-width: 300px;
+}
+
+.twitter-button-start:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 40px rgba(29, 161, 242, 0.6);
+}
+
+.twitter-button-start:active {
+  transform: translateY(-1px) scale(1.02);
+}
+
 .button-icon {
   font-size: 34px;
   animation: rocketWiggle 0.5s ease-in-out infinite;

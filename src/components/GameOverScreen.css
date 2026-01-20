@@ -265,6 +265,7 @@
 }
 
 .restart-button,
+.twitter-button,
 .menu-button {
   display: flex;
   align-items: center;
@@ -295,6 +296,21 @@
 }
 
 .restart-button:active {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.twitter-button {
+  background: linear-gradient(135deg, #1DA1F2 0%, #0d8bd9 100%);
+  box-shadow: 0 10px 30px rgba(29, 161, 242, 0.4);
+  color: #ffffff !important;
+}
+
+.twitter-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(29, 161, 242, 0.6);
+}
+
+.twitter-button:active {
   transform: translateY(-1px) scale(1.02);
 }
 

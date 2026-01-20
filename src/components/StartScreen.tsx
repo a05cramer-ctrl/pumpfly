@@ -31,6 +31,10 @@ export function StartScreen({ onStart, highScore, playerName, onChangeName }: St
     return () => clearInterval(interval);
   }, []);
 
+  const handleTwitterShare = () => {
+    window.open('https://x.com/PumpFly_Dev', '_blank');
+  };
+
   return (
     <div className="start-screen">
       <div className="start-content">
@@ -63,6 +67,11 @@ export function StartScreen({ onStart, highScore, playerName, onChangeName }: St
         <button className="start-button" onClick={onStart}>
           <span className="button-text">START FLYING</span>
           <span className="button-icon">🚀</span>
+        </button>
+
+        <button className="twitter-button-start" onClick={handleTwitterShare}>
+          <span className="button-text">TWITTER</span>
+          <span className="button-icon">🐦</span>
         </button>
 
         <div className="mini-leaderboard">
