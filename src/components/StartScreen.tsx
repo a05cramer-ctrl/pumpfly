@@ -103,28 +103,33 @@ export function StartScreen({ onStart, highScore, playerName, onChangeName }: St
               <span>💎 Based on dev's Pump.fun rewards</span>
             </div>
             <div className="prize-distribution">
-              <div className="prize-row first-place">
-                <span className="prize-rank">🥇 1st</span>
+              <div className={`prize-row first-place ${leaderboard[0]?.name === playerName ? 'is-player' : ''}`}>
+                <span className="prize-rank">🥇</span>
+                <span className="prize-winner">{leaderboard[0]?.name || '---'}</span>
                 <span className="prize-amount">0.5 SOL</span>
                 <span className="prize-percent">50%</span>
               </div>
-              <div className="prize-row">
-                <span className="prize-rank">🥈 2nd</span>
+              <div className={`prize-row ${leaderboard[1]?.name === playerName ? 'is-player' : ''}`}>
+                <span className="prize-rank">🥈</span>
+                <span className="prize-winner">{leaderboard[1]?.name || '---'}</span>
                 <span className="prize-amount">0.25 SOL</span>
                 <span className="prize-percent">25%</span>
               </div>
-              <div className="prize-row">
-                <span className="prize-rank">🥉 3rd</span>
+              <div className={`prize-row ${leaderboard[2]?.name === playerName ? 'is-player' : ''}`}>
+                <span className="prize-rank">🥉</span>
+                <span className="prize-winner">{leaderboard[2]?.name || '---'}</span>
                 <span className="prize-amount">0.15 SOL</span>
                 <span className="prize-percent">15%</span>
               </div>
-              <div className="prize-row">
+              <div className={`prize-row ${leaderboard[3]?.name === playerName ? 'is-player' : ''}`}>
                 <span className="prize-rank">#4</span>
+                <span className="prize-winner">{leaderboard[3]?.name || '---'}</span>
                 <span className="prize-amount">0.07 SOL</span>
                 <span className="prize-percent">7%</span>
               </div>
-              <div className="prize-row">
+              <div className={`prize-row ${leaderboard[4]?.name === playerName ? 'is-player' : ''}`}>
                 <span className="prize-rank">#5</span>
+                <span className="prize-winner">{leaderboard[4]?.name || '---'}</span>
                 <span className="prize-amount">0.03 SOL</span>
                 <span className="prize-percent">3%</span>
               </div>

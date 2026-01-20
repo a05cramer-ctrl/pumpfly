@@ -396,7 +396,7 @@
 
 .prize-row {
   display: grid;
-  grid-template-columns: 50px 1fr auto;
+  grid-template-columns: 30px 1fr 70px 40px;
   align-items: center;
   padding: 8px 10px;
   background: rgba(255, 215, 0, 0.05);
@@ -404,6 +404,32 @@
   border: 1px solid rgba(255, 215, 0, 0.2);
   transition: all 0.2s ease;
   font-size: 14px;
+  gap: 8px;
+}
+
+.prize-row.is-player {
+  background: rgba(0, 255, 136, 0.15);
+  border-color: rgba(0, 255, 136, 0.4);
+}
+
+.prize-winner {
+  font-family: 'Bangers', cursive, system-ui;
+  font-size: 14px;
+  color: #fff;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+
+.prize-row.is-player .prize-winner {
+  color: #00ff88;
+}
+
+.prize-row.first-place .prize-winner {
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .prize-row.first-place {
@@ -418,17 +444,15 @@
 }
 
 .prize-rank {
-  font-family: 'Bangers', cursive, system-ui;
-  font-size: 14px;
-  color: #ffd700;
-  text-align: left;
+  font-size: 16px;
+  text-align: center;
 }
 
 .prize-amount {
   font-family: 'Bangers', cursive, system-ui;
-  font-size: 14px;
-  color: #fff;
-  text-align: center;
+  font-size: 13px;
+  color: #00ff88;
+  text-align: right;
   letter-spacing: 0.5px;
 }
 
@@ -440,10 +464,9 @@
 
 .prize-percent {
   font-family: 'Bangers', cursive, system-ui;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
   text-align: right;
-  min-width: 35px;
 }
 
 .prize-row.first-place .prize-percent {

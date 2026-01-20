@@ -1,6 +1,7 @@
 import { LeaderboardEntry } from '../types';
 
-const API_URL = 'http://localhost:3001/api';
+// Use relative URL for production, localhost for development
+const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
 
 export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
   try {
