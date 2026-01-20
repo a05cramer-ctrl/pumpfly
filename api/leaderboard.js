@@ -1,20 +1,57 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { kv } from '@vercel/kv';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-// Use /tmp directory for Vercel serverless functions (writable)
-const DATA_FILE = process.env.VERCEL 
-  ? join('/tmp', 'leaderboard.json')
-  : join(process.cwd(), 'server', 'leaderboard.json');
+const USE_REDIS = process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
 
-// Initialize data file if it doesn't exist
+// Fallback to file system for local development
+const DATA_FILE = join(process.cwd(), 'server', 'leaderboard.json');
+
+// Initialize data file if it doesn't exist (for local dev)
 function ensureDataFile() {
-  if (!existsSync(DATA_FILE)) {
-    // Ensure directory exists
-    const dir = DATA_FILE.substring(0, DATA_FILE.lastIndexOf('/'));
-    if (dir && !existsSync(dir)) {
-      mkdirSync(dir, { recursive: true });
-    }
+  if (!USE_REDIS && !existsSync(DATA_FILE)) {
     writeFileSync(DATA_FILE, JSON.stringify({ scores: [] }));
+  }
+}
+
+// Redis key for leaderboard
+const LEADERBOARD_KEY = 'leaderboard:scores';
+
+// Get scores from Redis or file system
+async function getScores() {
+  if (USE_REDIS) {
+    try {
+      const scores = await kv.get(LEADERBOARD_KEY);
+      return scores || [];
+    } catch (error) {
+      console.error('Error reading from Redis:', error);
+      return [];
+    }
+  } else {
+    // Local file system fallback
+    ensureDataFile();
+    try {
+      const data = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
+      return data.scores || [];
+    } catch {
+      return [];
+    }
+  }
+}
+
+// Save scores to Redis or file system
+async function saveScores(scores) {
+  if (USE_REDIS) {
+    try {
+      await kv.set(LEADERBOARD_KEY, scores);
+    } catch (error) {
+      console.error('Error saving to Redis:', error);
+      throw error;
+    }
+  } else {
+    // Local file system fallback
+    ensureDataFile();
+    writeFileSync(DATA_FILE, JSON.stringify({ scores }, null, 2));
   }
 }
 
@@ -33,9 +70,8 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     // Get all scores
     try {
-      ensureDataFile();
-      const data = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
-      const sortedScores = data.scores
+      const scores = await getScores();
+      const sortedScores = scores
         .sort((a, b) => b.score - a.score)
         .slice(0, 50); // Top 50 scores
       res.status(200).json(sortedScores);
@@ -46,7 +82,6 @@ export default async function handler(req, res) {
   } else if (req.method === 'POST') {
     // Add a new score
     try {
-      ensureDataFile();
       const { name, score } = req.body;
       
       if (!name || typeof score !== 'number') {
@@ -55,12 +90,7 @@ export default async function handler(req, res) {
 
       const sanitizedName = name.trim().slice(0, 20); // Max 20 characters
       
-      let data;
-      try {
-        data = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
-      } catch {
-        data = { scores: [] };
-      }
+      const scores = await getScores();
       
       const newEntry = {
         id: Date.now().toString(),
@@ -69,14 +99,14 @@ export default async function handler(req, res) {
         date: new Date().toISOString(),
       };
       
-      data.scores.push(newEntry);
+      scores.push(newEntry);
       
-      // Keep only top 100 scores to prevent file from growing too large
-      data.scores = data.scores
+      // Keep only top 100 scores to prevent storage from growing too large
+      const sortedScores = scores
         .sort((a, b) => b.score - a.score)
         .slice(0, 100);
       
-      writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+      await saveScores(sortedScores);
       
       res.status(200).json(newEntry);
     } catch (error) {

@@ -19,11 +19,25 @@ if (!existsSync(DATA_FILE)) {
   writeFileSync(DATA_FILE, JSON.stringify({ scores: [] }));
 }
 
+// Helper functions for file operations
+function getScores() {
+  try {
+    const data = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
+    return data.scores || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveScores(scores) {
+  writeFileSync(DATA_FILE, JSON.stringify({ scores }, null, 2));
+}
+
 // Get all scores
 app.get('/api/leaderboard', (req, res) => {
   try {
-    const data = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
-    const sortedScores = data.scores
+    const scores = getScores();
+    const sortedScores = scores
       .sort((a, b) => b.score - a.score)
       .slice(0, 50); // Top 50 scores
     res.json(sortedScores);
@@ -44,7 +58,7 @@ app.post('/api/leaderboard', (req, res) => {
 
     const sanitizedName = name.trim().slice(0, 20); // Max 20 characters
     
-    const data = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
+    const scores = getScores();
     
     const newEntry = {
       id: Date.now().toString(),
@@ -53,14 +67,14 @@ app.post('/api/leaderboard', (req, res) => {
       date: new Date().toISOString(),
     };
     
-    data.scores.push(newEntry);
+    scores.push(newEntry);
     
     // Keep only top 100 scores to prevent file from growing too large
-    data.scores = data.scores
+    const sortedScores = scores
       .sort((a, b) => b.score - a.score)
       .slice(0, 100);
     
-    writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+    saveScores(sortedScores);
     
     res.json(newEntry);
   } catch (error) {
@@ -73,9 +87,9 @@ app.post('/api/leaderboard', (req, res) => {
 app.get('/api/leaderboard/:name', (req, res) => {
   try {
     const { name } = req.params;
-    const data = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
+    const scores = getScores();
     
-    const playerScores = data.scores
+    const playerScores = scores
       .filter(s => s.name.toLowerCase() === name.toLowerCase())
       .sort((a, b) => b.score - a.score);
     

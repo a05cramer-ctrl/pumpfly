@@ -1,10 +1,38 @@
+import { kv } from '@vercel/kv';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-// Use /tmp directory for Vercel serverless functions (writable)
-const DATA_FILE = process.env.VERCEL 
-  ? join('/tmp', 'leaderboard.json')
-  : join(process.cwd(), 'server', 'leaderboard.json');
+const USE_REDIS = process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
+
+// Fallback to file system for local development
+const DATA_FILE = join(process.cwd(), 'server', 'leaderboard.json');
+
+// Redis key for leaderboard
+const LEADERBOARD_KEY = 'leaderboard:scores';
+
+// Get scores from Redis or file system
+async function getScores() {
+  if (USE_REDIS) {
+    try {
+      const scores = await kv.get(LEADERBOARD_KEY);
+      return scores || [];
+    } catch (error) {
+      console.error('Error reading from Redis:', error);
+      return [];
+    }
+  } else {
+    // Local file system fallback
+    if (!existsSync(DATA_FILE)) {
+      return [];
+    }
+    try {
+      const data = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
+      return data.scores || [];
+    } catch {
+      return [];
+    }
+  }
+}
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -22,13 +50,9 @@ export default async function handler(req, res) {
     try {
       const { name } = req.query;
       
-      if (!existsSync(DATA_FILE)) {
-        return res.status(200).json([]);
-      }
-
-      const data = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
+      const scores = await getScores();
       
-      const playerScores = data.scores
+      const playerScores = scores
         .filter(s => s.name.toLowerCase() === name.toLowerCase())
         .sort((a, b) => b.score - a.score);
       
