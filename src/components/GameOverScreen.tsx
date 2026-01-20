@@ -25,12 +25,25 @@ export function GameOverScreen({
   useEffect(() => {
     const fetchLeaderboard = async () => {
       setIsLoading(true);
-      const scores = await getLeaderboard();
-      setLeaderboard(scores);
-      setIsLoading(false);
+      try {
+        const scores = await getLeaderboard();
+        console.log('Fetched leaderboard scores:', scores);
+        setLeaderboard(scores);
+      } catch (error) {
+        console.error('Error fetching leaderboard:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
+    
+    // Fetch immediately
     fetchLeaderboard();
-  }, []);
+    
+    // Also fetch after a short delay to ensure score was saved
+    const timeout = setTimeout(fetchLeaderboard, 1000);
+    
+    return () => clearTimeout(timeout);
+  }, [score]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

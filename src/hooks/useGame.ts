@@ -654,7 +654,11 @@ export function useGame(canvasRef: React.RefObject<HTMLCanvasElement>, playerNam
           
           // Submit score
           if (playerName && gs.score > 0) {
-            submitScore(playerName, gs.score);
+            submitScore(playerName, gs.score).then((result) => {
+              console.log('Score submitted successfully:', result);
+            }).catch((error) => {
+              console.error('Failed to submit score:', error);
+            });
           }
           
           // Update high score

@@ -40,6 +40,7 @@ app.get('/api/leaderboard', (req, res) => {
     const sortedScores = scores
       .sort((a, b) => b.score - a.score)
       .slice(0, 50); // Top 50 scores
+    console.log(`Returning ${sortedScores.length} scores from leaderboard`);
     res.json(sortedScores);
   } catch (error) {
     console.error('Error reading leaderboard:', error);
@@ -51,14 +52,17 @@ app.get('/api/leaderboard', (req, res) => {
 app.post('/api/leaderboard', (req, res) => {
   try {
     const { name, score } = req.body;
+    console.log(`Received score submission: ${name} - ${score}`);
     
     if (!name || typeof score !== 'number') {
+      console.error('Invalid score submission:', { name, score });
       return res.status(400).json({ error: 'Name and score are required' });
     }
 
     const sanitizedName = name.trim().slice(0, 20); // Max 20 characters
     
     const scores = getScores();
+    console.log(`Current scores count: ${scores.length}`);
     
     const newEntry = {
       id: Date.now().toString(),
@@ -75,6 +79,7 @@ app.post('/api/leaderboard', (req, res) => {
       .slice(0, 100);
     
     saveScores(sortedScores);
+    console.log(`Score saved. Total scores now: ${sortedScores.length}`);
     
     res.json(newEntry);
   } catch (error) {
