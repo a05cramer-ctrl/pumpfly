@@ -195,12 +195,12 @@ export function StartScreen({ onStart, highScore, playerName, onChangeName }: St
           <span 
             className="ca-address" 
             onClick={() => {
-              navigator.clipboard.writeText('rQ84Cym6YyuU4Fzi4cjHb4mnDctyxSBXUCA91wLpump');
+              navigator.clipboard.writeText('Bs4RfW1W7Yg4FeMrX9q4nd7NfdFYt3Pp8MPqNAQmpump');
               alert('Contract address copied to clipboard!');
             }}
             title="Click to copy contract address"
           >
-            CA: rQ84Cym6YyuU4Fzi4cjHb4mnDctyxSBXUCA91wLpump
+            CA: Bs4RfW1W7Yg4FeMrX9q4nd7NfdFYt3Pp8MPqNAQmpump
           </span>
         </div>
       </div>
